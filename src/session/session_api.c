@@ -577,6 +577,7 @@ __session_open_cursor_int(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *
     WT_DATA_SOURCE *dsrc;
     WT_DECL_RET;
 
+    printf("Opening cursor internal for %s\n", uri);
     *cursorp = NULL;
 
     /*
@@ -655,10 +656,13 @@ __session_open_cursor_int(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *
         break;
     }
 
-    if (*cursorp == NULL && (dsrc = __wt_schema_get_source(session, uri)) != NULL)
+    if (*cursorp == NULL && (dsrc = __wt_schema_get_source(session, uri)) != NULL) {
+        printf("find custom data source here %s\n", dsrc->open_cursor == NULL? "true":"false");
         WT_RET(dsrc->open_cursor == NULL ?
             __wt_object_unsupported(session, uri) :
             __wt_curds_open(session, uri, owner, cfg, dsrc, cursorp));
+    }
+    printf("find custom data source here 2\n");
 
     if (*cursorp == NULL)
         return (__wt_bad_object_type(session, uri));
@@ -684,6 +688,8 @@ __session_open_cursor_int(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *
     if (*cursorp != NULL)
         (*cursorp)->uri_hash = hash_value;
 
+    printf("find custom data source here ret is: %d\n", ret);
+
     return (ret);
 }
 
@@ -699,6 +705,7 @@ __wt_open_cursor(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, co
     uint64_t hash_value;
 
     hash_value = 0;
+    printf("Opening cursor for %s\n", uri);
 
     /*
      * We should not open other cursors when there are open history store cursors in the session.

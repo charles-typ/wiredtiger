@@ -568,6 +568,7 @@ typedef uint64_t wt_timestamp_t;
 #include "bitstring_inline.h"
 #include "block_inline.h"
 #include "btree_inline.h" /* required by cursor_inline.h */
+//#include "bplustree.h"
 #include "btree_cmp_inline.h"
 #include "column_inline.h"
 #include "conf_inline.h"
