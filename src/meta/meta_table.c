@@ -293,14 +293,14 @@ __wt_metadata_search(WT_SESSION_IMPL *session, const char *key, char **valuep)
 
     *valuep = NULL;
 
-    //__wt_verbose_debug3(session, WT_VERB_METADATA,
-    //  "Search: key: %s, tracking: %s, %s"
-    //  "turtle",
-    //  key, WT_META_TRACKING(session) ? "true" : "false", __metadata_turtle(key) ? "" : "not ");
-    __wt_verbose_warning(session, WT_VERB_METADATA,
+    __wt_verbose_debug3(session, WT_VERB_METADATA,
       "Search: key: %s, tracking: %s, %s"
       "turtle",
       key, WT_META_TRACKING(session) ? "true" : "false", __metadata_turtle(key) ? "" : "not ");
+    //__wt_verbose_warning(session, WT_VERB_METADATA,
+    //  "Search: key: %s, tracking: %s, %s"
+    //  "turtle",
+    //  key, WT_META_TRACKING(session) ? "true" : "false", __metadata_turtle(key) ? "" : "not ");
 
     if (__metadata_turtle(key)) {
         /*
@@ -321,20 +321,20 @@ __wt_metadata_search(WT_SESSION_IMPL *session, const char *key, char **valuep)
      * updates use non-transactional techniques (such as the schema and metadata locks) to protect
      * access to in-flight updates.
      */
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 1");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 1");
     WT_RET(__wt_metadata_cursor(session, &cursor));
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 2");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 2");
     cursor->set_key(cursor, key);
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 3");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 3");
     WT_WITH_TXN_ISOLATION(session, WT_ISO_READ_UNCOMMITTED, ret = cursor->search(cursor));
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 4");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 4");
     WT_ERR(ret);
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 5");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 5");
 
     WT_ERR(cursor->get_value(cursor, &value));
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 6");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 6");
     WT_ERR(__wt_strdup(session, value, valuep));
-    __wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 7");
+    //__wt_verbose_warning(session, WT_VERB_METADATA, "%s", "Checkpoint 7");
 
 err:
     WT_TRET(__wt_metadata_cursor_release(session, &cursor));

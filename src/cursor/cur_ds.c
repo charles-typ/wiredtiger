@@ -464,9 +464,9 @@ __wt_curds_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, con
 
     metaconf = NULL;
 
-    printf("Internal function checkpoint 2\n");
+    //printf("Internal function checkpoint 2\n");
     WT_RET(__wt_calloc_one(session, &data_source));
-    printf("Internal function checkpoint 3\n");
+    //printf("Internal function checkpoint 3\n");
     cursor = (WT_CURSOR *)data_source;
     *cursor = iface;
     cursor->session = (WT_SESSION *)session;
@@ -476,28 +476,28 @@ __wt_curds_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, con
      * particularly elegant way of getting that information to the data-source, this feels like a
      * layering problem to me.
      */
-    printf("Internal function checkpoint 4\n");
+    //printf("Internal function checkpoint 4\n");
     //WT_ERR(__wt_metadata_search(session, uri, &metaconf));
     //printf("Internal function checkpoint 5\n");
     //WT_ERR(__wt_config_getones(session, metaconf, "key_format", &cval));
-    printf("Internal function checkpoint 6\n");
+    //printf("Internal function checkpoint 6\n");
     cval.str = "Q";
     cval.len = 1;
     WT_ERR(__wt_strndup(session, cval.str, cval.len, &cursor->key_format));
     //printf("Internal function checkpoint 7\n");
     //WT_ERR(__wt_config_getones(session, metaconf, "value_format", &cval));
-    printf("Internal function checkpoint 8\n");
+    //printf("Internal function checkpoint 8\n");
     cval.str = "S";
     cval.len = 1;
     WT_ERR(__wt_strndup(session, cval.str, cval.len, &cursor->value_format));
-    printf("Internal function checkpoint 9\n");
+    //printf("Internal function checkpoint 9\n");
 
     WT_ERR(__wt_cursor_init(cursor, uri, owner, cfg, cursorp));
-    printf("Internal function checkpoint 10\n");
+    //printf("Internal function checkpoint 10\n");
 
     /* Data-source cursors may have a custom collator. */
     ret = __wt_config_getones(session, metaconf, "collator", &cval);
-    printf("Internal function checkpoint 11\n");
+    //printf("Internal function checkpoint 11\n");
     if (ret == 0 && cval.len != 0) {
         WT_CLEAR(metadata);
         WT_ERR_NOTFOUND_OK(
@@ -505,13 +505,13 @@ __wt_curds_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, con
         WT_ERR(__wt_collator_config(
           session, uri, &cval, &metadata, &data_source->collator, &data_source->collator_owned));
     }
-    printf("Internal function checkpoint 12\n");
+    //printf("Internal function checkpoint 12\n");
     WT_ERR_NOTFOUND_OK(ret, false);
-    printf("Internal function checkpoint 13\n");
+    //printf("Internal function checkpoint 13\n");
 
     WT_ERR(
       dsrc->open_cursor(dsrc, &session->iface, uri, (WT_CONFIG_ARG *)cfg, &data_source->source));
-    printf("Internal function checkpoint 14\n");
+    //printf("Internal function checkpoint 14\n");
     source = data_source->source;
     source->session = (WT_SESSION *)session;
     memset(&source->q, 0, sizeof(source->q));
@@ -521,7 +521,7 @@ __wt_curds_open(WT_SESSION_IMPL *session, const char *uri, WT_CURSOR *owner, con
     memset(&source->value, 0, sizeof(source->value));
     source->saved_err = 0;
     source->flags = 0;
-    printf("Internal function checkpoint 15\n");
+    //printf("Internal function checkpoint 15\n");
 
     if (0) {
 err:
